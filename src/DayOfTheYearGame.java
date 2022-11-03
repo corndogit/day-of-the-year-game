@@ -47,7 +47,6 @@ public class DayOfTheYearGame {
                         } catch (NumberFormatException e) {
                             System.out.println("Invalid day - please enter an integer value.");
                         }
-
                         // check if player's day is greater than current (and that we didn't just catch an exception)
                         if ((playerDay <= gameDate.getDayOfMonth()) && (playerDay >= 0)) {
                             System.out.println("Invalid day - your day must be greater than the current one.");
@@ -60,7 +59,6 @@ public class DayOfTheYearGame {
                             }
                         }
                     }
-
                     // change between player 1 and 2 and reset playerDate if no one won
                     if (!gameDate.equals(winDate)) {
                         playerTurn = (playerTurn == 1) ? 2 : 1;
@@ -83,7 +81,6 @@ public class DayOfTheYearGame {
                         } catch (NumberFormatException e) {
                             System.out.println("Invalid month - please enter an integer value.");
                         }
-
                         if (playerMonth <= gameDate.getMonthValue()) {
                             System.out.println("Invalid month - your month must be greater than the current one.");
                         } else {
@@ -101,7 +98,6 @@ public class DayOfTheYearGame {
                             }
                         }
                     }
-
                     if (!gameDate.equals(winDate)) {
                         playerTurn = (playerTurn == 1) ? 2 : 1;  // change between player 1 and 2 if no one won
                         playerDate = null;
@@ -117,6 +113,8 @@ public class DayOfTheYearGame {
                     System.out.println("Input invalid, please try again!");
             }
         }
-        System.out.printf("Player %d is the winner of the game!", playerTurn);
+        System.out.printf("The current date is %d of %s %d%n",
+                gameDate.getDayOfMonth(), gameDate.getMonth(), gameDate.getYear());
+        System.out.printf("Player %d is the winner of the game!%n", playerTurn);
     }
 }
