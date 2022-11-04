@@ -12,14 +12,37 @@ public class DayOfTheYearGame {
     // Constants
     static final int DAY_MAX = 31;
     static final int MONTH_MAX = 12;
+    static final int CURRENT_YEAR = LocalDate.now().getYear();
+
+    /**
+     * Method for parsing arguments which may be used to change the game's starting date. Return the default value
+     * of [CURRENT_YEAR]-1-1 if a valid date cannot be created
+     * @param argsToParse the arguments provided when the file is run
+     * @return LocalDate object of the date to start the game from
+     */
+    public static LocalDate getStartDateFromArgs(String[] argsToParse) {
+        // check if exactly 2 arguments for month and day are not provided (use default date of Jan 1st CURRENT_YEAR)
+        if (argsToParse.length != 2) {
+            return LocalDate.of(CURRENT_YEAR, 1, 1);
+        }
+        try {
+            // try and convert the String arguments to integers
+            int day = Integer.parseInt(argsToParse[0]);
+            int month = Integer.parseInt(argsToParse[1]);
+            return LocalDate.of(CURRENT_YEAR, month, day);
+
+        } catch (NumberFormatException | DateTimeException e) {
+            // Catch exceptions thrown if arguments cannot be parsed to int, or if date is invalid.
+            return LocalDate.of(CURRENT_YEAR, 1, 1);
+        }
+    }
 
     public static void main(String[] args) {
         Scanner in = new Scanner(System.in);
 
         // Create our LocalDate objects
-        int currentYear = LocalDate.now().getYear();
-        LocalDate gameDate = LocalDate.of(currentYear, 1, 1);
-        LocalDate winDate = LocalDate.of(currentYear, MONTH_MAX, DAY_MAX); // equivalent to 1st Jan of <currentYear>
+        LocalDate gameDate = getStartDateFromArgs(args);
+        LocalDate winDate = LocalDate.of(CURRENT_YEAR, MONTH_MAX, DAY_MAX); // equivalent to 1st Jan of <currentYear>
         LocalDate playerDate = null;  // this is the date created from the player's input after each turn
 
         // Run the game until gameDate is 2022-12-31 - players take turns altering the gameDate
@@ -81,25 +104,27 @@ public class DayOfTheYearGame {
                         } catch (NumberFormatException e) {
                             System.out.println("Invalid month - please enter an integer value.");
                         }
-                        if (playerMonth <= gameDate.getMonthValue()) {
+                        // check if the input month is larger than the current
+                        if ((playerMonth <= gameDate.getMonthValue()) && (playerMonth > 0)) {
                             System.out.println("Invalid month - your month must be greater than the current one.");
                         } else {
                             try {
                                 // check if the new month has enough days
-                                int lengthOfNewMonth = LocalDate.of(currentYear, playerMonth, 1).lengthOfMonth();
+                                int lengthOfNewMonth = LocalDate.of(CURRENT_YEAR, playerMonth, 1).lengthOfMonth();
                                 if (lengthOfNewMonth >= gameDate.getDayOfMonth()) {
                                     playerDate = gameDate.withMonth(playerMonth);
                                     gameDate = playerDate;
                                 } else {
-                                    System.out.println("Invalid month - new month has less days than current.");
+                                    System.out.println("Invalid month - new month has no available days.");
                                 }
                             } catch (DateTimeException e) {
                                 System.out.println("Invalid month - outside the range of possible months.");
                             }
                         }
                     }
+                    // change between player 1 and 2's turn if no one won
                     if (!gameDate.equals(winDate)) {
-                        playerTurn = (playerTurn == 1) ? 2 : 1;  // change between player 1 and 2 if no one won
+                        playerTurn = (playerTurn == 1) ? 2 : 1;
                         playerDate = null;
                     }
                     break;
