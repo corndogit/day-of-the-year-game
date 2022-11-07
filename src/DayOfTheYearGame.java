@@ -51,7 +51,7 @@ public class DayOfTheYearGame {
 
         // Create our LocalDate objects
         LocalDate gameDate = getStartDateFromArgs(args);
-        LocalDate winDate = LocalDate.of(CURRENT_YEAR, MONTH_MAX, DAY_MAX); // equivalent to 1st Jan of <currentYear>
+        LocalDate winDate = LocalDate.of(CURRENT_YEAR, MONTH_MAX, DAY_MAX); // equivalent to 31st Dec of <currentYear>
         LocalDate playerDate = null;  // this is the date created from the player's input after each turn
 
         // Run the game until gameDate is 2022-12-31 - players take turns altering the gameDate
@@ -108,7 +108,7 @@ public class DayOfTheYearGame {
                         System.out.println(ERROR_MESSAGE);
                         break;
                     }
-                    System.out.print("Which day do you want to pick: ");
+                    System.out.print("Which month do you want to pick: ");
                     while (playerDate == null) {
                         // Take the player's input month
                         int playerMonth;
@@ -148,11 +148,6 @@ public class DayOfTheYearGame {
                         System.out.print("Do you want to increase the day or month? (day or month): ");
                     }
                     break;
-
-                case "exit":
-                    // todo remove this before submission
-                    System.out.println("Exiting...");
-                    System.exit(0);
 
                 default:
                     System.out.println(ERROR_MESSAGE);
