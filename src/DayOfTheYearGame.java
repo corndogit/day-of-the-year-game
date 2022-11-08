@@ -4,20 +4,35 @@ import java.util.Scanner;
 
 public class DayOfTheYearGame {
     // Constants
+    static final int DECIMAL_BASE = 10;
     static final int DAY_MAX = 31;
     static final int MONTH_MAX = 12;
     static final int CURRENT_YEAR = LocalDate.now().getYear();  // year is required to create a valid LocalDate
     static final String ERROR_MESSAGE = "Input invalid, please try again!";
+    static final String[] DAY_SUFFIXES = {"st", "nd", "rd"};
     /**
      * Formats the output string to fit the marking criteria using a provided LocalDate object
      * @param gameDate A LocalDate object
+     * @param withOrdinal Boolean which, if true, formats the date with the ordinal (e.g. 1st, 2nd, 3rd, 4th)
      * @return Formatted output string
      */
-    private static String currentDateFormatter(LocalDate gameDate) {
+    private static String currentDateFormatter(LocalDate gameDate, boolean withOrdinal) {
+        // See if we need to format with the ordinal date (was the code run with args?)
+        int day = gameDate.getDayOfMonth();
+        String suffix = "";
+        if (withOrdinal) {
+            int index = day % DECIMAL_BASE - 1; // 0 = "st", 1 = "nd", 2 = "rd"
+            if (index < DAY_SUFFIXES.length && index >= 0) {
+                suffix = DAY_SUFFIXES[index];
+            } else {
+                suffix = "th";
+            }
+        }
+
         // Capitalize the month (e.g. JANUARY -> January)
         String month = gameDate.getMonth().toString().toLowerCase();
         month = month.substring(0, 1).toUpperCase() + month.substring(1).toLowerCase();
-        return String.format("The current date is: %d of %s", gameDate.getDayOfMonth(), month);
+        return String.format("The current date is: %d%s of %s", day, suffix, month);
     }
     /**
      * Method for parsing arguments which may be used to change the game's starting date. Return the default value
@@ -48,6 +63,7 @@ public class DayOfTheYearGame {
 
     public static void main(String[] args) {
         Scanner in = new Scanner(System.in);
+        boolean hasArgs = (args.length != 0);
 
         // Create our LocalDate objects
         LocalDate gameDate = getStartDateFromArgs(args);
@@ -56,7 +72,7 @@ public class DayOfTheYearGame {
 
         // Run the game until gameDate is 2022-12-31 - players take turns altering the gameDate
         int playerTurn = 1;
-        System.out.println(currentDateFormatter(gameDate));
+        System.out.println(currentDateFormatter(gameDate, hasArgs));
         System.out.printf("It is Player %d's Turn!%n", playerTurn);
         System.out.print("Do you want to increase the day or month? (day or month): ");
 
@@ -87,7 +103,7 @@ public class DayOfTheYearGame {
                                 // set current date to input date and print the result
                                 playerDate = gameDate.withDayOfMonth(playerDay);
                                 gameDate = playerDate;
-                                System.out.println(currentDateFormatter(gameDate));
+                                System.out.println(currentDateFormatter(gameDate, hasArgs));
                             } catch (DateTimeException e) {
                                 System.out.println(ERROR_MESSAGE);
                             }
@@ -125,7 +141,7 @@ public class DayOfTheYearGame {
                                     if (lengthOfNewMonth >= gameDate.getDayOfMonth()) {
                                         playerDate = gameDate.withMonth(playerMonth);
                                         gameDate = playerDate;
-                                        System.out.println(currentDateFormatter(gameDate));
+                                        System.out.println(currentDateFormatter(gameDate, hasArgs));
                                     } else {
                                         // ask the user the input another month number
                                         System.out.println(ERROR_MESSAGE);
