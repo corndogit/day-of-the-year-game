@@ -10,6 +10,7 @@ public class DayOfTheYearGame {
     static final int CURRENT_YEAR = LocalDate.now().getYear();  // year is required to create a valid LocalDate
     static final String ERROR_MESSAGE = "Input invalid, please try again!";
     static final String[] DAY_SUFFIXES = {"st", "nd", "rd"};
+    static final int[] DAYS_WITH_EXCEPTIONAL_SUFFIX = {11, 12, 13};
     /**
      * Formats the output string to fit the marking criteria using a provided LocalDate object
      * @param gameDate A LocalDate object
@@ -23,7 +24,10 @@ public class DayOfTheYearGame {
         if (withOrdinal) {
             int index = day % DECIMAL_BASE - 1; // 0 = "st", 1 = "nd", 2 = "rd"
             if (index < DAY_SUFFIXES.length && index >= 0) {
-                suffix = DAY_SUFFIXES[index];
+                // check if day is 11th, 12th, 13th (as they have different prefix from other nums ending in 1, 2 or 3
+                if (day != DAYS_WITH_EXCEPTIONAL_SUFFIX[index]) {
+                    suffix = DAY_SUFFIXES[index];
+                }
             } else {
                 suffix = "th";
             }
