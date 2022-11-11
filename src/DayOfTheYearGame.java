@@ -35,10 +35,10 @@ public class DayOfTheYearGame {
                 suffix = "th";
             }
         }
-
         // Capitalize the month (e.g. JANUARY -> January)
         String month = gameDate.getMonth().toString().toLowerCase();
         month = month.substring(0, 1).toUpperCase() + month.substring(1).toLowerCase();
+
         return String.format("The current date is: %d%s of %s", day, suffix, month);
     }
     /**
@@ -112,6 +112,7 @@ public class DayOfTheYearGame {
                                 gameDate = playerDate;
                                 System.out.println(currentDateFormatter(gameDate, hasArgs));
                             } catch (DateTimeException e) {
+                                // exception thrown when an invalid date is provided to a LocalDate object
                                 System.out.println(ERROR_MESSAGE);
                             }
                         }
