@@ -8,9 +8,13 @@ public class DayOfTheYearGame {
     static final int DAY_MAX = 31;
     static final int MONTH_MAX = 12;
     static final int CURRENT_YEAR = LocalDate.now().getYear();  // year is required to create a valid LocalDate
-    static final String ERROR_MESSAGE = "Input invalid, please try again!";
     static final String[] DAY_SUFFIXES = {"st", "nd", "rd"};
     static final int[] DAYS_WITH_EXCEPTIONAL_SUFFIX = {11, 12, 13};
+
+    // Strings used in multiple places
+    static final String ERROR_MESSAGE = "Input invalid, please try again!";
+    static final String PLAYER_TURN_MESSAGE = "It is Player %d's Turn!%n";
+    static final String DAY_OR_MONTH_PROMPT = "Do you want to increase the day or month? (day or month): ";
     /**
      * Formats the output string to fit the marking criteria using a provided LocalDate object
      * @param gameDate A LocalDate object
@@ -80,8 +84,8 @@ public class DayOfTheYearGame {
         // Run the game until gameDate is 2022-12-31 - players take turns altering the gameDate
         int playerTurn = 1;
         System.out.println(currentDateFormatter(gameDate, hasArgs));
-        System.out.printf("It is Player %d's Turn!%n", playerTurn);
-        System.out.print("Do you want to increase the day or month? (day or month): ");
+        System.out.printf(PLAYER_TURN_MESSAGE, playerTurn);
+        System.out.print(DAY_OR_MONTH_PROMPT);
 
         while (!gameDate.equals(winDate)) {
             // take the player's input
@@ -121,8 +125,8 @@ public class DayOfTheYearGame {
                     if (!gameDate.equals(winDate)) {
                         playerTurn = (playerTurn == 1) ? 2 : 1;
                         playerDate = null;
-                        System.out.printf("It is Player %d's Turn!%n", playerTurn);
-                        System.out.print("Do you want to increase the day or month? (day or month): ");
+                        System.out.printf(PLAYER_TURN_MESSAGE, playerTurn);
+                        System.out.print(DAY_OR_MONTH_PROMPT);
                     }
                     break;
 
@@ -168,13 +172,13 @@ public class DayOfTheYearGame {
                     if (!gameDate.equals(winDate)) {
                         playerTurn = (playerTurn == 1) ? 2 : 1;
                         playerDate = null;
-                        System.out.printf("It is Player %d's Turn!%n", playerTurn);
-                        System.out.print("Do you want to increase the day or month? (day or month): ");
+                        System.out.printf(PLAYER_TURN_MESSAGE, playerTurn);
+                        System.out.print(DAY_OR_MONTH_PROMPT);
                     }
                     break;
 
                 default:
-                    System.out.println(ERROR_MESSAGE);
+                    System.out.println(ERROR_MESSAGE);  // if player did not enter "day" or "month"
             }
         }
         // Game has reached a win state
