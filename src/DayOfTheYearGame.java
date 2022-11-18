@@ -181,7 +181,8 @@ public class DayOfTheYearGame {
                     System.out.println(ERROR_MESSAGE);  // if player did not enter "day" or "month"
             }
         }
-        // Game has reached a win state
+        // Game has reached the winning date
         System.out.printf("Player %d is the winner of the game!%n", playerTurn);
+        in.close();
     }
 }
