@@ -2,6 +2,7 @@ import java.time.DateTimeException;
 import java.time.LocalDate;
 import java.util.Scanner;
 
+// Coursework 1 Group 20 - Nathan Brenton and Lewis Dennis (Level 3)
 public class DayOfTheYearGame {
     // Constants
     static final int DECIMAL_BASE = 10;
