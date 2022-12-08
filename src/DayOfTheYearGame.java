@@ -101,25 +101,25 @@ public class DayOfTheYearGame {
                     System.out.print("Which day do you want to pick: ");
                     while (playerDate == null) {
                         // Take the player's input day
-                        int playerDay = 0;
+                        int playerDay;
                         try {
                             playerDay = Integer.parseInt(in.nextLine());
+
+                            if ((playerDay <= gameDate.getDayOfMonth()) && (playerDay > 0)) {
+                                System.out.println(ERROR_MESSAGE);
+                            } else {
+                                try {
+                                    // set current date to input date and print the result
+                                    playerDate = gameDate.withDayOfMonth(playerDay);
+                                    gameDate = playerDate;
+                                    System.out.println(currentDateFormatter(gameDate, hasArgs));
+                                } catch (DateTimeException e) {
+                                    // exception thrown when an invalid date is provided to a LocalDate object
+                                    System.out.println(ERROR_MESSAGE);
+                                }
+                            }
                         } catch (NumberFormatException e) {
                             System.out.println(ERROR_MESSAGE);
-                        }
-                        // check if player's day is greater than current (and that we didn't just catch an exception)
-                        if ((playerDay <= gameDate.getDayOfMonth()) && (playerDay >= 0)) {
-                            System.out.println(ERROR_MESSAGE);
-                        } else {
-                            try {
-                                // set current date to input date and print the result
-                                playerDate = gameDate.withDayOfMonth(playerDay);
-                                gameDate = playerDate;
-                                System.out.println(currentDateFormatter(gameDate, hasArgs));
-                            } catch (DateTimeException e) {
-                                // exception thrown when an invalid date is provided to a LocalDate object
-                                System.out.println(ERROR_MESSAGE);
-                            }
                         }
                     }
                     // change between player 1 and 2, reset playerDate and print next player's turn if no one won
