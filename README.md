@@ -1,4 +1,4 @@
-# csm41-coursework1
+# Day of the year game
 A simple CLI game written in Java as part of my first CSCM41 coursework at Swansea University. I received a mark of 95% for this coursework, and would've received
 full marks if not for one small bug where one string would sometimes print twice if an invalid option was selected. This bug has sinced been rectified.
 
